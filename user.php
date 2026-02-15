@@ -1,134 +1,123 @@
-<!DOCTYPE html>
+<?php
+session_start();
+
+/* ====== ตั้งค่าฐานข้อมูล ====== */
+$servername = "localhost";
+$username   = "root";
+$password   = "";
+$dbname     = "bunnii_box";   // 👈 เปลี่ยนชื่อฐานข้อมูลให้ตรงของคุณ
+
+$conn = mysqli_connect($servername, $username, $password, $dbname);
+
+if (!$conn) {
+    die("เชื่อมต่อฐานข้อมูลไม่สำเร็จ: " . mysqli_connect_error());
+}
+
+$error = "";
+
+if (isset($_POST['Submit'])) {
+
+    $name = mysqli_real_escape_string($conn, $_POST['name']);
+    $phone = mysqli_real_escape_string($conn, $_POST['phone']);
+    $address = mysqli_real_escape_string($conn, $_POST['address']);
+    $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+
+    $check = mysqli_query($conn, "SELECT * FROM users WHERE phone='$phone'");
+
+    if (mysqli_num_rows($check) > 0) {
+        $error = "เบอร์โทรนี้ถูกใช้งานแล้ว";
+    } else {
+
+        $sql = "INSERT INTO users (name, phone, address, password)
+                VALUES ('$name', '$phone', '$address', '$password')";
+
+        if (mysqli_query($conn, $sql)) {
+
+            $_SESSION['name'] = $name;
+            $_SESSION['phone'] = $phone;
+
+            header("Location: shop.php");
+            exit();
+
+        } else {
+            $error = "เกิดข้อผิดพลาด กรุณาลองใหม่";
+        }
+    }
+}
+?>
+<!doctype html>
 <html lang="th">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>POP NOW</title>
+<meta charset="utf-8">
+<title>Bunnii Box | สมัครสมาชิก</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
 <style>
 body{
-    margin:0;
-    font-family: Arial, Helvetica, sans-serif;
-    background:#f6f6f6;
-}
-
-/* Header */
-.header{
-    background:white;
-    padding:20px 0;
-    text-align:center;
-    border-bottom:1px solid #eee;
-}
-
-.header h1{
-    margin:0;
-    font-size:42px;
-    font-weight:bold;
-    letter-spacing:3px;
-}
-
-.header p{
-    margin-top:8px;
-    color:#555;
-    cursor:pointer;
-}
-
-/* Product Section */
-.product-section{
-    max-width:1200px;
-    margin:60px auto;
+    background: linear-gradient(135deg, #f8c8dc, #f3b6d6);
+    height: 100vh;
     display:flex;
-    justify-content:space-between;
-    gap:40px;
+    align-items:center;
+    justify-content:center;
+    font-family: sans-serif;
 }
-
-/* Card */
-.product-card{
-    background:white;
-    width:100%;
-    max-width:350px;
-    text-align:center;
-    padding:30px 20px;
-    border-radius:8px;
-    transition:0.3s;
+.card-box{
+    width:420px;
+    background:#fdeaf2;
+    border-radius:30px;
+    padding:40px;
+    box-shadow:0 20px 40px rgba(0,0,0,0.1);
 }
-
-.product-card:hover{
-    transform:translateY(-5px);
-    box-shadow:0 10px 25px rgba(0,0,0,0.1);
-}
-
-.product-card img{
-    width:200px;
-    height:auto;
-    margin-bottom:20px;
-}
-
-.product-title{
-    font-size:18px;
-    margin-bottom:15px;
-}
-
-.price{
-    font-size:20px;
-    font-weight:bold;
-    margin-bottom:20px;
-}
-
-.btn{
-    padding:12px 25px;
-    border:1px solid #333;
-    background:white;
-    cursor:pointer;
-    transition:0.3s;
-}
-
-.btn:hover{
-    background:#333;
-    color:white;
+.btn-pink{
+    background:#ff4da6;
+    border:none;
+    border-radius:30px;
 }
 </style>
-</head>
 
+</head>
 <body>
 
-<div class="header">
-    <h1>POP NOW</h1>
-    <p>สำรวจชุดเพิ่มเติม ></p>
-</div>
+<div class="card-box">
+    <h3 class="text-center mb-4">🐰 Bunnii Box สมัครสมาชิก</h3>
 
-<div class="product-section">
-
-    <!-- Product 1 -->
-    <div class="product-card">
-        <img src="img/stitch.jpg" alt="Stitch">
-        <div class="product-title">
-            Stitch Adventure Series Vinyl Plush Pendant
+    <?php if ($error): ?>
+        <div class="alert alert-danger text-center">
+            <?= $error ?>
         </div>
-        <div class="price">฿550.00 / การเลือก</div>
-        <button class="btn">เปิดกล่องเดี๋ยวนี้</button>
-    </div>
+    <?php endif; ?>
 
-    <!-- Product 2 -->
-    <div class="product-card">
-        <img src="img/zsiga.jpg" alt="Zsiga">
-        <div class="product-title">
-            Zsiga Under the Sun Series Figures
+    <form method="post">
+
+        <div class="mb-3">
+            <label>ชื่อ</label>
+            <input type="text" name="name" class="form-control" required>
         </div>
-        <div class="price">฿380.00 / การเลือก</div>
-        <button class="btn">เปิดกล่องเดี๋ยวนี้</button>
-    </div>
 
-    <!-- Product 3 -->
-    <div class="product-card">
-        <img src="img/spyfamily.jpg" alt="Spy Family">
-        <div class="product-title">
-            SPY x FAMILY Daily Life Series Figures
+        <div class="mb-3">
+            <label>เบอร์โทร</label>
+            <input type="text" name="phone" class="form-control" required>
         </div>
-        <div class="price">฿380.00 / การเลือก</div>
-        <button class="btn">เปิดกล่องเดี๋ยวนี้</button>
-    </div>
 
+        <div class="mb-3">
+            <label>ที่อยู่</label>
+            <input type="text" name="address" class="form-control" required>
+        </div>
+
+        <div class="mb-3">
+            <label>รหัสผ่าน</label>
+            <input type="password" name="password" class="form-control" required>
+        </div>
+
+        <div class="d-grid">
+            <button type="submit" name="Submit" class="btn btn-pink text-white">
+                สมัครสมาชิก
+            </button>
+        </div>
+
+    </form>
 </div>
 
 </body>

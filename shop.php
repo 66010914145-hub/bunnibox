@@ -1,233 +1,169 @@
-
 <!DOCTYPE html>
 <html lang="th">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Bunnii Box</title>
-
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 <style>
-body{
-    margin:0;
-    font-family:'Segoe UI',sans-serif;
-    background:#fff;
-}
-
-/* ===== NAVBAR ===== */
-.navbar{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    padding:15px 40px;
-    border-bottom:1px solid #eee;
-}
-
-.brand{
-    display:flex;
-    align-items:center;
-    gap:10px;
-    font-size:20px;
-    font-weight:500;
-}
-
-.brand img{
-    width:40px;
-}
-
-.icons{
-    display:flex;
-    gap:25px;
-    font-size:20px;
-    align-items:center;
-}
-
-.icons i{
-    cursor:pointer;
-    position:relative;
-}
-
-.cart-count{
-    position:absolute;
-    top:-8px;
-    right:-10px;
-    background:#ff4d4d;
-    color:#fff;
-    font-size:12px;
-    width:18px;
-    height:18px;
-    border-radius:50%;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-}
-
-/* ===== SLIDER ===== */
-.slider-wrapper{
-    position:relative;
-    max-width:1200px;
-    margin:60px auto;
-    overflow:hidden;
-}
-
-.products{
-    display:flex;
-    gap:40px;
-    overflow-x:auto;
-    scroll-behavior:smooth;
-    padding:20px;
-}
-
-.products::-webkit-scrollbar{
-    display:none;
-}
-
-.card{
-    min-width:260px;
-    text-align:center;
-    flex-shrink:0;
-}
-
-.card img{
-    width:100%;
-    border-radius:12px;
-}
-
-.name{
-    margin-top:15px;
-    font-size:15px;
-}
-
-.price{
-    margin:5px 0;
-    color:#777;
-}
-
-.btn{
-    padding:8px 15px;
-    border:none;
-    background:#111;
-    color:#fff;
-    cursor:pointer;
-    border-radius:20px;
-    font-size:13px;
-}
-
-/* ===== ARROWS ===== */
-.arrow{
-    position:absolute;
-    top:45%;
-    transform:translateY(-50%);
-    background:#fff;
-    border:none;
-    font-size:28px;
-    cursor:pointer;
-    padding:8px 15px;
-    border-radius:50%;
-    box-shadow:0 4px 10px rgba(0,0,0,0.1);
-}
-
-.arrow-left{ left:10px; }
-.arrow-right{ right:10px; }
-
-.footer{
-    text-align:center;
-    padding:30px;
-    color:#aaa;
-    border-top:1px solid #eee;
-}
+body{margin:0;font-family:'Segoe UI',sans-serif;background:#f5f5f5;}
+.navbar{display:flex;justify-content:space-between;align-items:center;padding:15px 60px;background:#fff;border-bottom:1px solid #eee;}
+.brand{font-size:22px;font-weight:600;}
+.icons{display:flex;gap:25px;font-size:20px;}
+.icons a{color:black;text-decoration:none;} /* เพิ่มให้ไอคอนกดได้ */
+.hero{height:500px;background:url("./img/4.webp") center/cover no-repeat;display:flex;align-items:center;padding-left:80px;color:#fff;}
+.hero-text h1{font-size:60px;margin:0;}
+.hero-text p{font-size:22px;margin:20px 0;}
+.hero-btn{padding:12px 30px;border:none;background:#fff;color:#000;cursor:pointer;font-weight:600;}
+.products{display:flex;justify-content:center;gap:120px;padding:80px 60px;background:#fff;}
+.card{text-align:center;width:280px;}
+.card img{width:100%;height:280px;object-fit:contain;}
+.name{margin:20px 0 10px;font-size:18px;}
+.price{font-size:18px;margin-bottom:20px;}
+.btn{padding:10px 25px;border:1px solid #000;background:#fff;cursor:pointer;text-decoration:none;color:black;display:inline-block;}
+.btn:hover{background:#000;color:#fff;}
+#result{text-align:center;margin:60px 0;}
+.new-products{display:grid;grid-template-columns:repeat(4,1fr);gap:40px;padding:80px 120px;background:#f3f3f3;}
+.item{background:#fff;padding:30px;text-align:center;}
+.item img{width:100%;height:250px;object-fit:contain;}
+.title{font-size:16px;margin:15px 0;}
+.footer{text-align:center;padding:30px;color:#aaa;background:#fff;}
 </style>
 </head>
 
 <body>
 
-<!-- NAVBAR -->
 <div class="navbar">
-    <div class="brand">
-        <img src="img/logo-rabbit.png">
-        Bunnii Box
-    </div>
-
+    <div class="brand">Bunnii Box</div>
     <div class="icons">
-        <i class="fa-solid fa-headphones"></i>
-        <i class="fa-regular fa-user"></i>
-        <i class="fa-regular fa-heart"></i>
-        <i class="fa-solid fa-bag-shopping">
-            <span class="cart-count" id="cartCount">0</span>
-        </i>
+
+        <!-- 👤 โปรไฟล์ -->
+        <a href="profile.php">
+            <i class="fa-regular fa-user"></i>
+        </a>
+
+        <!-- ❤️ -->
+        <a href="#">
+            <i class="fa-regular fa-heart"></i>
+        </a>
+
+        <!-- 🛒 -->
+        <a href="cart.php" style="position:relative;">
+            <i class="fa-solid fa-bag-shopping"></i>
+            <span id="cartCount" style="
+                position:absolute;
+                top:-8px;
+                right:-10px;
+                background:red;
+                color:white;
+                font-size:12px;
+                padding:2px 6px;
+                border-radius:50%;
+            ">0</span>
+        </a>
     </div>
 </div>
 
-<!-- SLIDER -->
-<div class="slider-wrapper">
+<section class="hero">
+    <div class="hero-text">
+        <h1>Stitch</h1>
+        <p>Stitch Adventure Series Vinyl Plush Pendant</p>
+        <button class="hero-btn" onclick="location.href='product.php?id=1'">SHOP NOW</button>
+    </div>
+</section>
 
-<button class="arrow arrow-left" onclick="scrollLeft()">❮</button>
-<button class="arrow arrow-right" onclick="scrollRight()">❯</button>
-
-<div class="products" id="slider">
-
-<div class="card">
-<img src="img/heart-bag.jpg">
-<div class="name">Twinkle Heart Bag</div>
-<div class="price">฿850</div>
-<button class="btn" onclick="addToCart()">Add to Cart</button>
-</div>
+<section class="products">
 
 <div class="card">
-<img src="img/photo-frame.jpg">
-<div class="name">Twinkle Photo Frame</div>
-<div class="price">฿380</div>
-<button class="btn" onclick="addToCart()">Add to Cart</button>
+<img src="./img/5.jpg">
+<div class="name">Stitch Adventure Series Vinyl Plush Pendant</div>
+<div class="price">฿550.00</div>
+<a href="product.php?id=1" class="btn">เปิดกล่องเดี๋ยวนี้</a>
 </div>
 
 <div class="card">
-<img src="img/lucky-doll.jpg">
-<div class="name">Lucky Plush Pendant</div>
-<div class="price">฿320</div>
-<button class="btn" onclick="addToCart()">Add to Cart</button>
+<img src="./img/6.jpg">
+<div class="name">Zsiga Under the Sun Series Figures</div>
+<div class="price">฿380.00</div>
+<a href="product.php?id=2" class="btn">เปิดกล่องเดี๋ยวนี้</a>
 </div>
 
 <div class="card">
-<img src="img/brown-doll.jpg">
-<div class="name">Mini Cookie Doll</div>
-<div class="price">฿320</div>
-<button class="btn" onclick="addToCart()">Add to Cart</button>
+<img src="./img/3.jpg">
+<div class="name">SPY x FAMILY Daily Life Series Figures</div>
+<div class="price">฿380.00</div>
+<a href="product.php?id=3" class="btn">เปิดกล่องเดี๋ยวนี้</a>
 </div>
 
-<div class="card">
-<img src="img/stitch-box.webp">
-<div class="name">Stitch Adventure</div>
-<div class="price">฿550</div>
-<button class="btn" onclick="addToCart()">Add to Cart</button>
+</section>
+
+<div id="result"></div>
+
+<section class="new-products">
+
+<div class="item">
+<img src="./img/7.jpg">
+<div class="title">Twinkle Twinkle Savor the Moment Series-Fresh-Baked Mini Cookies</div>
+<div class="price">฿320.00</div>
+<button class="btn" onclick="addToCart(this)">เพิ่มลงตะกร้า</button>
 </div>
 
+<div class="item">
+<img src="./img/8.jpg">
+<div class="title">Apple of My Eye Series-Twinkle Twinkle Festival Gift Box</div>
+<div class="price">฿1,890.00</div>
+<button class="btn" onclick="addToCart(this)">เพิ่มลงตะกร้า</button>
 </div>
+
+<div class="item">
+<img src="./img/1.jpg">
+<div class="title">Twinkle Twinkle Crush On You Series-Photo Frame Fridge Magnet Blind Box</div>
+<div class="price">฿380.00</div>
+<button class="btn" onclick="addToCart(this)">เพิ่มลงตะกร้า</button>
 </div>
+
+<div class="item">
+<img src="./img/2.jpg">
+<div class="title">Twinkle Twinkle Crush On You Series-Hand-in-Hand Heart Bag</div>
+<div class="price">฿850.00</div>
+<button class="btn" onclick="addToCart(this)">เพิ่มลงตะกร้า</button>
+</div>
+
+</section>
 
 <div class="footer">
 © 2026 Bunnii Box
 </div>
 
 <script>
-function scrollLeft(){
-document.getElementById('slider').scrollBy({
-left:-300,
-behavior:'smooth'
-});
-}
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-function scrollRight(){
-document.getElementById('slider').scrollBy({
-left:300,
-behavior:'smooth'
-});
+function updateCart(){
+    document.getElementById("cartCount").innerText = cart.length;
 }
+updateCart();
 
-let cart = 0;
-function addToCart(){
-cart++;
-document.getElementById("cartCount").innerText = cart;
+function addToCart(button){
+    const item = button.closest(".item") || button.closest(".card");
+
+    const name =
+        item.querySelector(".title") ?
+        item.querySelector(".title").innerText :
+        item.querySelector(".name").innerText;
+
+    const price = item.querySelector(".price").innerText;
+    const img = item.querySelector("img").getAttribute("src");
+
+    cart.push({
+        name:name,
+        price:price,
+        img:img
+    });
+
+    localStorage.setItem("cart", JSON.stringify(cart));
+    updateCart();
+    alert("เพิ่มสินค้าลงตะกร้าแล้ว 🛒");
 }
 </script>
 
